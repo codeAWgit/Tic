@@ -1,0 +1,16 @@
+.col-3 {
+    height: 150px;
+    border: 2px solid royalblue;
+}
+
+#menu {
+    padding: 60px 10px;
+    background-color: #e5eecc;
+    border: solid 1px #c3c3c3;  
+    display: none; 
+}
+
+.players {
+    font-size: 2em;
+    font-weight:  600;
+}
