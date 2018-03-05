@@ -10,6 +10,16 @@
     display: none; 
 }
 
+#youGo {
+    padding: 60px 10px;
+    color: wheat;
+    background-color: #071461;
+    border: solid 13px #c3c3c3;  
+    display: none; 
+    position: fixed;
+    top: 130px;
+}
+
 .players {
     font-size: 2em;
     font-weight:  600;
