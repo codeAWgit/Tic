@@ -1,5 +1,7 @@
 .col-3 {
     height: 150px;
+    padding: 30px 0px 0px 0px;
+    font-size: 3em;
     border: 2px solid royalblue;
 }
 
@@ -11,10 +13,10 @@
 }
 
 #youGo {
-    padding: 60px 10px;
+    padding: 60px 0px;
     color: wheat;
     background-color: #071461;
-    border: solid 13px #c3c3c3;  
+    border: solid 10px #c3c3c3;  
     display: none; 
     position: fixed;
     top: 130px;
