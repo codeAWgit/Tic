@@ -2,7 +2,7 @@
 // sqs is short for squares. Top left is [0].
 let disableClick
 let sqs = document.querySelectorAll('.col-3')
-let comp, player, boardSpace
+let comp, player, boardSpace, bSpaceObject
 
 startNewGame()
 
@@ -10,7 +10,7 @@ function startNewGame () {
     $('#menu').slideDown(1800)
 
     $('#X').click( function(){
-        
+
         $('#menu').slideUp(1000)
         comp = 'O'; player = 'X';
         setTimeout(youGo, 1000)
@@ -21,6 +21,7 @@ function startNewGame () {
             setTimeout(() => $('#youGo').hide(), 2000)
 
             boardSpace = []
+            bSpaceObject = {}
 
             let len = sqs.length
             for ( let i = 0; i < len; i++) {
@@ -37,6 +38,7 @@ function startNewGame () {
         comp = 'X'; player = 'O';
         
         boardSpace = []
+        bSpaceObject = {}
 
         let len = sqs.length
         for ( let i = 0; i < len; i++) {
@@ -60,6 +62,7 @@ function enableClick() {
 disableClick = function (sqreClicked) {
     let len = sqs.length
     boardSpace.push(+sqreClicked)
+    bSpaceObject[+sqreClicked] = player
 
     for( let i = 0; i < len; i++) {
         sqs[i].attributes[1].value = ''
@@ -74,6 +77,7 @@ function playBall() {
     if (!boardSpace.includes(x)) {
         boardSpace.push(x)
         sqs[x].innerHTML = comp
+        bSpaceObject[x] = comp
 
         if (boardSpace.length > 4) checkForWinner()
         enableClick()
@@ -84,15 +88,31 @@ function playBall() {
 }
 
 function checkForWinner () {
+    function lines(f, s, t) {
+        if ( bSpaceObject[f] === bSpaceObject[s] && bSpaceObject[s] === bSpaceObject[t] && bSpaceObject[f] != undefined) {
+            $('#youGo').text(bSpaceObject[f] + ' wins!')   
+            $('#youGo').show()
+            setTimeout(() => $('#youGo').hide(), 2500)
+            player = ''; comp = ''
+            startNewGame()
+        }
+    }
+    lines(0,1,2)
+    lines(3,4,5)
+    lines(6,7,8)
+    lines(0,3,6)
+    lines(1,4,7)
+    lines(2,5,8)
+    lines(0,4,8)
+    lines(2,4,6)
+
+    console.log(boardSpace)
     if ( boardSpace.length === 9) {
         $('#youGo').text('Draw game. Try again.')   
         $('#youGo').show()
         setTimeout(() => $('#youGo').hide(), 2000)
-        player = ''
+        player = ''; comp = ''
         startNewGame()
-    }
-    else {
-
     }
 }
 
