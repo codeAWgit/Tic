@@ -2,7 +2,7 @@
 // sqs is short for squares. Top left is [0].
 let disableClick
 let sqs = document.querySelectorAll('.col-3')
-let comp, player, boardSpace, bSpaceObject
+let comp, player, boardSpace, bSpaceObject, winner
 
 startNewGame()
 
@@ -22,6 +22,7 @@ function startNewGame () {
 
             boardSpace = []
             bSpaceObject = {}
+            winner = false
 
             let len = sqs.length
             for ( let i = 0; i < len; i++) {
@@ -39,13 +40,14 @@ function startNewGame () {
         
         boardSpace = []
         bSpaceObject = {}
+        winner = false
 
         let len = sqs.length
         for ( let i = 0; i < len; i++) {
                 sqs[i].innerHTML = ''
         }
 
-        playBall()
+        CPUplay()
     })
 }
 
@@ -68,32 +70,46 @@ disableClick = function (sqreClicked) {
         sqs[i].attributes[1].value = ''
     }
 
-    if (boardSpace.length > 4) checkForWinner()
-    playBall()
+    if ( boardSpace.length > 4 && boardSpace.length < 9 ) checkForWinner()
+    if ( boardSpace.length === 9 ) {
+        resetGame()
+    }
+    else {
+    CPUplay()
+    }
 }
 
-function playBall() {
-    let x = Math.floor(Math.random() * 9)
-    if (!boardSpace.includes(x)) {
+function CPUplay() {
+    let x = Math.floor( Math.random() * 9 )
+    if ( !boardSpace.includes(x) ) {
         boardSpace.push(x)
         sqs[x].innerHTML = comp
         bSpaceObject[x] = comp
 
-        if (boardSpace.length > 4) checkForWinner()
-        enableClick()
+        if ( boardSpace.length > 4 && boardSpace.length < 9 ) checkForWinner()
+        if ( boardSpace.length === 9 ) {
+            resetGame()
+        }
+        else {
+            enableClick()
+        }
+        
     }
     else {
-        playBall()
+        CPUplay()
     }
 }
 
 function checkForWinner () {
     function lines(f, s, t) {
-        if ( bSpaceObject[f] === bSpaceObject[s] && bSpaceObject[s] === bSpaceObject[t] && bSpaceObject[f] != undefined) {
+
+        if ( bSpaceObject[f] === bSpaceObject[s] && bSpaceObject[s] === bSpaceObject[t] && bSpaceObject[f] !== undefined) {
+            winner = true
+            if (winner) debugger;
             $('#youGo').text(bSpaceObject[f] + ' wins!')   
             $('#youGo').show()
             setTimeout(() => $('#youGo').hide(), 2500)
-            player = ''; comp = ''
+            player = ''; comp = '';
             startNewGame()
         }
     }
@@ -105,15 +121,16 @@ function checkForWinner () {
     lines(2,5,8)
     lines(0,4,8)
     lines(2,4,6)
+}
 
-    console.log(boardSpace)
-    if ( boardSpace.length === 9) {
+function resetGame () {
+    debugger
+    checkForWinner()
+    if (!winner) {
         $('#youGo').text('Draw game. Try again.')   
         $('#youGo').show()
         setTimeout(() => $('#youGo').hide(), 2000)
-        player = ''; comp = ''
+        player = ''; comp = '';
         startNewGame()
     }
 }
-
-
