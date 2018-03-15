@@ -15,11 +15,13 @@
 #youGo {
     padding: 60px 0px;
     color: wheat;
+    text-align: center;
     background-color: #071461;
     border: solid 10px #c3c3c3;  
     display: none; 
     position: fixed;
     top: 130px;
+    left: 0px;
 }
 
 .players {
